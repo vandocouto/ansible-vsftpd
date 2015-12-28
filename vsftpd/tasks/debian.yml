@@ -1,0 +1,26 @@
+---
+- name: "Instalacao do vsftpd - Debian"
+  apt: name={{item}} state=present
+  with_items:
+   - vsftpd
+
+- name: "criando o diretorio /etc/vsftpd"
+  file: path=/etc/vsftpd state=directory mode=0755
+
+- name: "Criando o arquivo"
+  file: path={{ vsftpd.chroot_list_file }} state=touch mode=0600
+
+- name: "Adicionando o usuario {{ vsftpd.user1 }}"
+  lineinfile: dest={{ vsftpd.chroot_list_file }} line={{ item }}
+  with_items:
+  - "{{users}}"
+
+- name: "Ajustando o arquivo de configuracao vsftpd.conf - Debian"
+  template: src=vsftpd.conf-tem dest=/etc/vsftpd.conf
+
+- name: "Iniciando o Vsftpd - Debian"
+  service:
+   name: vsftpd
+   state: running
+   enabled: yes
+  notify: Restart Vsftpd

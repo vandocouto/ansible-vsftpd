@@ -1,0 +1,8 @@
+---
+# vars file for vsftpd
+vsftpd:
+ banner: "Bem vindo ao FTP da {{ ansible_hostname }}"
+ chroot_list_file: /etc/vsftpd/chroot_list
+
+users: [ 'evandro.couto' , 'lucas.oshiro' , 'alves.oliveira' ]
+

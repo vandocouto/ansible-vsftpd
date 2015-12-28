@@ -1,0 +1,29 @@
+---
+- name: "Instalacao do epel - YUM"
+  yum: name=epel-release.noarch state=latest
+  tags: yum-epel
+
+- name: "Instalacao do vsftpd - YUM"
+  yum: name={{item}} state=latest
+  with_items:
+  - vsftpd
+  - MySQL-python
+  - libselinux-python
+
+- name: "Criando o arquivo"
+  file: path={{ vsftpd.chroot_list_file }} state=touch mode=0600
+
+- name: "Adicionando o usuario {{ vsftpd.user1 }}"
+  lineinfile: dest={{ vsftpd.chroot_list_file }} line={{ item }}
+  with_items:
+  - "{{users}}"
+
+- name: "Ajustando o arquivo de configuracao vsftpd.conf - CentOS"
+  template: src=vsftpd.conf-tem dest=/etc/vsftpd.conf
+
+- name: "Iniciando o Vsftpd - Debian"
+  service:
+   name: vsftpd
+   state: running
+   enabled: yes
+  notify: Restart Vsftpd

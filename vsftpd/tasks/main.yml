@@ -1,0 +1,8 @@
+---
+# tasks file for vsftpd
+- include: debian.yml
+  when: ansible_os_family == "Debian"
+  tags: debian
+- include: centos.yml
+  when: ansible_os_family == "RedHat"
+  tags: centos
