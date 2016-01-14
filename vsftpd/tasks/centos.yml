@@ -19,7 +19,7 @@
   - "{{users}}"
 
 - name: "Ajustando o arquivo de configuracao vsftpd.conf - CentOS"
-  template: src=vsftpd.conf-tem dest=/etc/vsftpd.conf
+  template: src=vsftpd.conf-tem dest=/etc/vsftpd/vsftpd.conf
 
 - name: "Iniciando o Vsftpd - Debian"
   service:
